@@ -52,6 +52,7 @@ void list_remove_at(NODE **list,long long unsigned pos){
 	free(curr);
 }
 
+
 void list_print(NODE *list){
 	while(list!=NULL){
 		printf("%lld-->",list->data);
@@ -65,18 +66,22 @@ void fill_vector(long long unsigned *v,long long unsigned size){
 	long long unsigned i,j,index,data;
         NODE *list=NULL;
         srand(time(NULL));
-        for(i=0;i<size;++i){
+	for(i=0;i<size;++i){
+		v[i]=0;
+	}
+		
+        for(i=1;i<size;++i){
                 list_insert(&list,i);
         }
-        i=size;
+        i=size-1;
 	j=0;
         while(i>0){
 		index=rand()%i;
                 data=list_read_at(list,index);
                 if(data!=j){
                         v[j]=data;
+			j=data;
 			list_remove_at(&list,index);
-                        ++j;
 			--i;
 		}
 	}
