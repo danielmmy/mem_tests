@@ -28,28 +28,24 @@ void list_insert(NODE **list,long long data){
 	}
 }
  
-long long unsigned list_read_at(NODE *list,long long unsigned pos){
-	long long unsigned i;
-	for(i=0;i<pos;++i){
-                list=list->nextPtr;
-        }
-	return list->data;
+void list_read_at(NODE *list,long long unsigned pos, NODE **prev, NODE **curr){
+        long long unsigned i;
+        *curr=list;
+        *prev=NULL;
+        for(i=0;i<pos;++i){
+                *prev=*curr;
+                *curr=(*curr)->nextPtr;
+        }     
 }
 
-void list_remove_at(NODE **list,long long unsigned pos){
-	long long unsigned i;
-	NODE *curr=*list;
-	NODE *prev=NULL;
-	for(i=0;i<pos;++i){
-		prev=curr;
-		curr=curr->nextPtr;	
-	}
-	if(prev!=NULL){
-		prev->nextPtr=curr->nextPtr;
-	}else{	
-		*list=curr->nextPtr;
-	}
-	free(curr);
+
+void list_remove(NODE **list,NODE **prev, NODE **curr){
+        if(*prev!=NULL){
+                (*prev)->nextPtr=(*curr)->nextPtr;
+        }else{
+                *list=(*curr)->nextPtr;
+        }
+        free(*curr);
 }
 
 
@@ -75,13 +71,15 @@ void fill_vector(long long unsigned *v,long long unsigned size){
         }
         i=size-1;
 	j=0;
+	NODE *prev;
+	NODE *curr;
         while(i>0){
 		index=rand()%i;
-                data=list_read_at(list,index);
-                if(data!=j){
-                        v[j]=data;
-			j=data;
-			list_remove_at(&list,index);
+                list_read_at(list,index,&prev,&curr);
+                if(curr->data!=j){
+                        v[j]=curr->data;
+			j=curr->data;
+			list_remove(&list,&prev,&curr);
 			--i;
 		}
 	}
