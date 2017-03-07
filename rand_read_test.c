@@ -11,9 +11,9 @@
 enum events{
 	INSTRUCTIONS,
 	CYCLES,
-	CACHE_REFERENCES,
-	CACHE_MISSES,
-	BRANCHES_MISSPREDICTED,
+	L1_DCACHE_ACCESS,
+	L1_DCACHE_MISSES,
+	L2_CACHE_ACCESS,
 	EVENTS_COUNT
 }EVENTS;
 
@@ -70,6 +70,7 @@ int main(int argc, char **argv){
                 printf("cannot open perf_counter for instructions\n");
                 exit(0);
         }
+
 	attr.type = PERF_TYPE_HARDWARE;
 	attr.config = PERF_COUNT_HW_CPU_CYCLES;
 	fd[CYCLES]=perf_event_open(&attr, 0, -1, -1, 0);
@@ -77,30 +78,30 @@ int main(int argc, char **argv){
                 printf("cannot open perf_counter for cycles\n");
                 exit(0);
         }
-	
-	attr.type = PERF_TYPE_RAW;
-	attr.config=0x10;
-        fd[BRANCHES_MISSPREDICTED]=perf_event_open(&attr, 0, -1, -1, 0);
-        if (fd[BRANCHES_MISSPREDICTED] == -1){
-                printf("cannot open perf_counter for BRANCHES_MISSPREDICTED\n");
+
+	attr.type = PERF_TYPE_HW_CACHE;
+        attr.config = (PERF_COUNT_HW_CACHE_L1D)|(PERF_COUNT_HW_CACHE_OP_READ << 8)|(PERF_COUNT_HW_CACHE_RESULT_ACCESS << 16);
+        fd[L1_DCACHE_ACCESS]=perf_event_open(&attr, 0, -1, -1, 0);
+        if (fd[L1_DCACHE_ACCESS] == -1){
+                printf("cannot open perf_counter for L1_DCACHE_ACCESS\n");
                 exit(0);
         }
 
-	attr.type = PERF_TYPE_HARDWARE;
-	attr.config = PERF_COUNT_HW_CACHE_REFERENCES;
-        fd[CACHE_REFERENCES]=perf_event_open(&attr, 0, -1, -1, 0);
-        if (fd[CACHE_REFERENCES] == -1){
-                printf("cannot open perf_counter for cache references\n");
+        attr.type = PERF_TYPE_HW_CACHE;
+        attr.config = (PERF_COUNT_HW_CACHE_L1D)|(PERF_COUNT_HW_CACHE_OP_READ << 8)|(PERF_COUNT_HW_CACHE_RESULT_MISS << 16);
+        fd[L1_DCACHE_MISSES]=perf_event_open(&attr, 0, -1, -1, 0);
+        if (fd[L1_DCACHE_MISSES] == -1){
+                printf("cannot open perf_counter for L1_DCACHE_MISSES\n");
                 exit(0);
         }
-	attr.type = PERF_TYPE_HARDWARE;
-	attr.config = PERF_COUNT_HW_CACHE_MISSES;
-        fd[CACHE_MISSES]=perf_event_open(&attr, 0, -1, -1, 0);
-        if (fd[CACHE_MISSES] == -1){
-                printf("cannot open perf_counter for cache misses\n");
+
+	attr.type = PERF_TYPE_RAW;
+	attr.config=0x17;
+        fd[L2_CACHE_ACCESS]=perf_event_open(&attr, 0, -1, -1, 0);
+        if (fd[L2_CACHE_ACCESS] == -1){
+                printf("cannot open perf_counter for L2_CACHE_ACCESS\n");
                 exit(0);
-        }
-	
+        }	
 
 	//Resets counter
 	for(i=0;i<EVENTS_COUNT;++i)
@@ -133,10 +134,12 @@ int main(int argc, char **argv){
 	printf("Instructions = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
 	read(fd[CYCLES], counts, sizeof(counts));
         printf("Cycles = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-	read(fd[BRANCHES_MISSPREDICTED], counts, sizeof(counts));
-	printf("Banches misspredicted = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-        read(fd[CACHE_REFERENCES], counts, sizeof(counts));
-	printf("Cache references = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-	read(fd[CACHE_MISSES], counts, sizeof(counts));
-printf("Cache misses = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
+	read(fd[L1_DCACHE_ACCESS], counts, sizeof(counts));
+        printf("L1 data cache access = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
+        read(fd[L1_DCACHE_MISSES], counts, sizeof(counts));
+        printf("L1 data cache misses = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
+	read(fd[L2_CACHE_ACCESS], counts, sizeof(counts));
+        printf("L2 cache ACCESS = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
+
+
 }
