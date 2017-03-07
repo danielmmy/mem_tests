@@ -96,7 +96,7 @@ int main(int argc, char **argv){
         }
 
 	attr.type = PERF_TYPE_RAW;
-	attr.config=0x17;
+	attr.config=0x16;
         fd[L2_CACHE_ACCESS]=perf_event_open(&attr, 0, -1, -1, 0);
         if (fd[L2_CACHE_ACCESS] == -1){
                 printf("cannot open perf_counter for L2_CACHE_ACCESS\n");
