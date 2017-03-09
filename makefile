@@ -27,7 +27,11 @@ $(BIN)rand_read_test_register_offset_shift: rand_read_test_register_offset_shift
 
 $(BIN)rand_read_test_register_offset_multiply: rand_read_test_register_offset_multiply.s
 	gcc -c rand_read_test_register_offset_multiply.s -o $(BIN)rand_read_test_register_offset_multiply.o
-	gcc $(BIN)rand_read_test_register_offset_multiply.o -o $(BIN)rand_read_test_register_offset_multiply
+	gcc $(BIN)rand_read_test_register_offset_multiply.o -o $(BIN)rand_read_test_register_offset_multiply	
+	gcc -c rand_read_test_register_offset_multiply_11xbranch.s -o $(BIN)rand_read_test_register_offset_multiply_11xbranch.o
+	gcc $(BIN)rand_read_test_register_offset_multiply_11xbranch.o -o $(BIN)rand_read_test_register_offset_multiply_11xbranch
+	gcc -c rand_read_test_register_offset_multiply_11xmultiply.s -o $(BIN)rand_read_test_register_offset_multiply_11xmultiply.o
+	gcc $(BIN)rand_read_test_register_offset_multiply_11xmultiply.o -o $(BIN)rand_read_test_register_offset_multiply_11xmultipy
 
 $(BIN)rand_read_test_register_offset_lsl_scaled: rand_read_test_register_offset_lsl_scaled.s
 	gcc -c rand_read_test_register_offset_lsl_scaled.s -o $(BIN)rand_read_test_register_offset_lsl_scaled.o
@@ -51,6 +55,8 @@ clean:
 	rm $(BIN)rand_read_test_simple_11xshift.o $(BIN)rand_read_test_simple_11xshift 
 	rm $(BIN)rand_read_test_register_offset_shift.o $(BIN)rand_read_test_register_offset_shift 
 	rm $(BIN)rand_read_test_register_offset_multiply.o $(BIN)rand_read_test_register_offset_multiply
+	rm $(BIN)rand_read_test_register_offset_multiply_11xbranch.o $(BIN)rand_read_test_register_offset_multiply_11xbranch
+	rm $(BIN)rand_read_test_register_offset_multiply_11xmultiply.o $(BIN)rand_read_test_register_offset_multiply_11xmultipy
 	rm $(BIN)rand_read_test_register_offset_lsl_scaled.o $(BIN)rand_read_test_register_offset_lsl_scaled
 	rm $(BIN)serial_read_test.s $(BIN)serial_read_test
 	rm $(BIN)serial_read_test_register_offset_lsl_scaled.o $(BIN)serial_read_test_register_offset_lsl_scaled
