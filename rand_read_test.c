@@ -12,8 +12,9 @@ enum events{
 	INSTRUCTIONS,
 	CYCLES,
 	L1_DCACHE_ACCESS,
-	L1_DCACHE_MISSES,
+	L1_DCACHE_REFILL,
 	L2_CACHE_ACCESS,
+	L2_CACHE_REFILL,
 	EVENTS_COUNT
 }EVENTS;
 
@@ -64,22 +65,22 @@ int main(int argc, char **argv){
         attr.exclude_hv = 1;//ONly read user space
 
 	//File descriptor for events
-	int fd[EVENTS_COUNT];
-	fd[INSTRUCTIONS]=perf_event_open(&attr, 0, -1, -1, 0);
+        int fd[EVENTS_COUNT];
+        fd[INSTRUCTIONS]=perf_event_open(&attr, 0, -1, -1, 0);
         if (fd[INSTRUCTIONS] == -1){
-                printf("cannot open perf_counter for instructions\n");
+                printf("cannot open perf_counter for INSTRUCTIONS\n");
                 exit(0);
         }
 
-	attr.type = PERF_TYPE_HARDWARE;
-	attr.config = PERF_COUNT_HW_CPU_CYCLES;
-	fd[CYCLES]=perf_event_open(&attr, 0, -1, -1, 0);
+        attr.type = PERF_TYPE_HARDWARE;
+        attr.config = PERF_COUNT_HW_CPU_CYCLES;
+        fd[CYCLES]=perf_event_open(&attr, 0, -1, -1, 0);
         if (fd[CYCLES] == -1){
-                printf("cannot open perf_counter for cycles\n");
+                printf("cannot open perf_counter for CYCLES\n");
                 exit(0);
         }
 
-	attr.type = PERF_TYPE_HW_CACHE;
+        attr.type = PERF_TYPE_HW_CACHE;
         attr.config = (PERF_COUNT_HW_CACHE_L1D)|(PERF_COUNT_HW_CACHE_OP_READ << 8)|(PERF_COUNT_HW_CACHE_RESULT_ACCESS << 16);
         fd[L1_DCACHE_ACCESS]=perf_event_open(&attr, 0, -1, -1, 0);
         if (fd[L1_DCACHE_ACCESS] == -1){
@@ -89,17 +90,25 @@ int main(int argc, char **argv){
 
         attr.type = PERF_TYPE_HW_CACHE;
         attr.config = (PERF_COUNT_HW_CACHE_L1D)|(PERF_COUNT_HW_CACHE_OP_READ << 8)|(PERF_COUNT_HW_CACHE_RESULT_MISS << 16);
-        fd[L1_DCACHE_MISSES]=perf_event_open(&attr, 0, -1, -1, 0);
-        if (fd[L1_DCACHE_MISSES] == -1){
-                printf("cannot open perf_counter for L1_DCACHE_MISSES\n");
+        fd[L1_DCACHE_REFILL]=perf_event_open(&attr, 0, -1, -1, 0);
+        if (fd[L1_DCACHE_REFILL] == -1){
+                printf("cannot open perf_counter for L1_DCACHE_REFILL\n");
                 exit(0);
         }
 
-	attr.type = PERF_TYPE_RAW;
-	attr.config=0x16;
+        attr.type = PERF_TYPE_RAW;
+        attr.config=0x16;
         fd[L2_CACHE_ACCESS]=perf_event_open(&attr, 0, -1, -1, 0);
         if (fd[L2_CACHE_ACCESS] == -1){
                 printf("cannot open perf_counter for L2_CACHE_ACCESS\n");
+                exit(0);
+        }
+
+        attr.type = PERF_TYPE_RAW;
+        attr.config=0x17;
+        fd[L2_CACHE_REFILL]=perf_event_open(&attr, 0, -1, -1, 0);
+        if (fd[L2_CACHE_REFILL] == -1){
+                printf("cannot open perf_counter for L2_CACHE_REFILL\n");
                 exit(0);
         }	
 
@@ -131,15 +140,16 @@ int main(int argc, char **argv){
 	//prints counters
 	printf("PMU statistics:\n");
         read(fd[INSTRUCTIONS], counts, sizeof(counts));
-	printf("Instructions = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-	read(fd[CYCLES], counts, sizeof(counts));
+        printf("Instructions = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
+        read(fd[CYCLES], counts, sizeof(counts));
         printf("Cycles = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-	read(fd[L1_DCACHE_ACCESS], counts, sizeof(counts));
+        read(fd[L1_DCACHE_ACCESS], counts, sizeof(counts));
         printf("L1 data cache access = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-        read(fd[L1_DCACHE_MISSES], counts, sizeof(counts));
-        printf("L1 data cache misses = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-	read(fd[L2_CACHE_ACCESS], counts, sizeof(counts));
-        printf("L2 cache ACCESS = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
-
+        read(fd[L1_DCACHE_REFILL], counts, sizeof(counts));
+        printf("L1 data cache refill = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
+        read(fd[L2_CACHE_ACCESS], counts, sizeof(counts));
+        printf("L2 cache access = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");
+        read(fd[L2_CACHE_REFILL], counts, sizeof(counts));
+        printf("L2 cache refill = %llu %s.\n",perf_count(counts),counts[1]==counts[2]?"real":"scaled");	
 
 }
