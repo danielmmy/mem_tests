@@ -40,6 +40,10 @@ $(BIN)rand_read_test_register_offset_multiply: rand_read_test_register_offset_mu
 $(BIN)rand_read_test_register_offset_lsl_scaled: rand_read_test_register_offset_lsl_scaled.s
 	gcc -c rand_read_test_register_offset_lsl_scaled.s -o $(BIN)rand_read_test_register_offset_lsl_scaled.o
 	gcc $(BIN)rand_read_test_register_offset_lsl_scaled.o -o $(BIN)rand_read_test_register_offset_lsl_scaled
+	
+	gcc -c rand_read_test_register_offset_lsl_scaled_11xbranch.s -o $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch.o
+	gcc $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch.o -o $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch
+	
 
 serial_read_tests: $(BIN)serial_read_test $(BIN)serial_read_test_register_offset_lsl_scaled
 
@@ -64,6 +68,7 @@ clean:
 	rm $(BIN)rand_read_test_register_offset_multiply_11xbranch.o $(BIN)rand_read_test_register_offset_multiply_11xbranch
 	rm $(BIN)rand_read_test_register_offset_multiply_11xmultiply.o $(BIN)rand_read_test_register_offset_multiply_11xmultipy
 	rm $(BIN)rand_read_test_register_offset_lsl_scaled.o $(BIN)rand_read_test_register_offset_lsl_scaled
+	rm $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch.o $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch
 	rm $(BIN)serial_read_test.s $(BIN)serial_read_test
 	rm $(BIN)serial_read_test_register_offset_lsl_scaled.o $(BIN)serial_read_test_register_offset_lsl_scaled
 	
