@@ -177,7 +177,6 @@ main:
 	mov	x19, 0
 	bl	gettimeofday
 	mov	x9, 0 
-	mov	x10, 1
 	.p2align 2
 .L14:
 	cbnz    x19, .L14_2
