@@ -54,6 +54,12 @@ $(BIN)serial_read_test: serial_read_test.c
 $(BIN)serial_read_test_simple: serial_read_test_simple.s
 	gcc -c serial_read_test_simple.s -o $(BIN)serial_read_test_simple.o
 	gcc $(BIN)serial_read_test_simple.o -o $(BIN)serial_read_test_simple
+	gcc -c serial_read_test_simple_11xadd.s -o $(BIN)serial_read_test_simple_11xadd.o
+	gcc $(BIN)serial_read_test_simple_11xadd.o -o $(BIN)serial_read_test_simple_11xadd
+	gcc -c serial_read_test_simple_11xbranch.s -o $(BIN)serial_read_test_simple_11xbranch.o
+	gcc $(BIN)serial_read_test_simple_11xbranch.o -o $(BIN)serial_read_test_simple_11xbranch
+	gcc -c serial_read_test_simple_11xcmp.s -o $(BIN)serial_read_test_simple_11xcmp.o
+	gcc $(BIN)serial_read_test_simple_11xcmp.o -o $(BIN)serial_read_test_simple_11xcmp
 
 $(BIN)serial_read_test_register_offset_lsl_scaled: serial_read_test_register_offset_lsl_scaled.s
 	gcc -c serial_read_test_register_offset_lsl_scaled.s -o $(BIN)serial_read_test_register_offset_lsl_scaled.o
@@ -75,5 +81,8 @@ clean:
 	rm $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch.o $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch
 	rm $(BIN)serial_read_test.s $(BIN)serial_read_test
 	rm $(BIN)serial_read_test_simple.o $(BIN)serial_read_test_simple
+	rm $(BIN)serial_read_test_simple_11xadd.o $(BIN)serial_read_test_simple_11xadd
+	rm $(BIN)serial_read_test_simple_11xbranch.o $(BIN)serial_read_test_simple_11xbranch
+	rm $(BIN)serial_read_test_simple_11xcmp.o $(BIN)serial_read_test_simple_11xcmp
 	rm $(BIN)serial_read_test_register_offset_lsl_scaled.o $(BIN)serial_read_test_register_offset_lsl_scaled
 	
