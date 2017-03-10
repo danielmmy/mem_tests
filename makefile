@@ -45,7 +45,7 @@ $(BIN)rand_read_test_register_offset_lsl_scaled: rand_read_test_register_offset_
 	gcc $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch.o -o $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch
 	
 
-serial_read_tests: $(BIN)serial_read_test $(BIN)serial_read_test_simple $(BIN)serial_read_test_register_offset_shift $(BIN)serial_read_test_register_offset_lsl_scaled $(BIN)serial_read_test_post_index $(BIN)serial_read_test_2x_post_index $(BIN)serial_read_test_pre_index $(BIN)serial_read_test_2x_pre_index 
+serial_read_tests: $(BIN)serial_read_test $(BIN)serial_read_test_simple $(BIN)serial_read_test_2x_simple $(BIN)serial_read_test_register_offset_shift $(BIN)serial_read_test_register_offset_lsl_scaled $(BIN)serial_read_test_post_index $(BIN)serial_read_test_2x_post_index $(BIN)serial_read_test_pre_index $(BIN)serial_read_test_2x_pre_index 
 
 $(BIN)serial_read_test: serial_read_test.c
 	gcc -w -S -O2 serial_read_test.c -o $(BIN)serial_read_test.s
@@ -60,6 +60,16 @@ $(BIN)serial_read_test_simple: serial_read_test_simple.s
 	gcc $(BIN)serial_read_test_simple_11xbranch.o -o $(BIN)serial_read_test_simple_11xbranch
 	gcc -c serial_read_test_simple_11xcmp.s -o $(BIN)serial_read_test_simple_11xcmp.o
 	gcc $(BIN)serial_read_test_simple_11xcmp.o -o $(BIN)serial_read_test_simple_11xcmp
+
+$(BIN)serial_read_test_2x_simple: serial_read_test_2x_simple.s
+	gcc -c serial_read_test_2x_simple.s -o $(BIN)serial_read_test_2x_simple.o
+	gcc $(BIN)serial_read_test_2x_simple.o -o $(BIN)serial_read_test_2x_simple
+	gcc -c serial_read_test_2x_simple_11xadd.s -o $(BIN)serial_read_test_2x_simple_11xadd.o
+	gcc $(BIN)serial_read_test_2x_simple_11xadd.o -o $(BIN)serial_read_test_2x_simple_11xadd
+	gcc -c serial_read_test_2x_simple_11xbranch.s -o $(BIN)serial_read_test_2x_simple_11xbranch.o
+	gcc $(BIN)serial_read_test_2x_simple_11xbranch.o -o $(BIN)serial_read_test_2x_simple_11xbranch
+	gcc -c serial_read_test_2x_simple_11xcmp.s -o $(BIN)serial_read_test_2x_simple_11xcmp.o
+	gcc $(BIN)serial_read_test_2x_simple_11xcmp.o -o $(BIN)serial_read_test_2x_simple_11xcmp
 
 $(BIN)serial_read_test_register_offset_shift: serial_read_test_register_offset_shift.s
 	gcc -c serial_read_test_register_offset_shift.s -o $(BIN)serial_read_test_register_offset_shift.o
@@ -128,6 +138,10 @@ clean:
 	rm $(BIN)serial_read_test_simple_11xadd.o $(BIN)serial_read_test_simple_11xadd
 	rm $(BIN)serial_read_test_simple_11xbranch.o $(BIN)serial_read_test_simple_11xbranch
 	rm $(BIN)serial_read_test_simple_11xcmp.o $(BIN)serial_read_test_simple_11xcmp
+	rm $(BIN)serial_read_test_2x_simple.o $(BIN)serial_read_test_2x_simple
+	rm $(BIN)serial_read_test_2x_simple_11xadd.o $(BIN)serial_read_test_2x_simple_11xadd
+	rm $(BIN)serial_read_test_2x_simple_11xbranch.o $(BIN)serial_read_test_2x_simple_11xbranch
+	rm $(BIN)serial_read_test_2x_simple_11xcmp.o $(BIN)serial_read_test_2x_simple_11xcmp
 	rm $(BIN)serial_read_test_register_offset_shift.o $(BIN)serial_read_test_register_offset_shift
 	rm $(BIN)serial_read_test_register_offset_shift_11xadd.o $(BIN)serial_read_test_register_offset_shift_11xadd
 	rm $(BIN)serial_read_test_register_offset_shift_11xbranch.o $(BIN)serial_read_test_register_offset_shift_11xbranch
