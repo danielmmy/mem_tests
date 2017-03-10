@@ -45,7 +45,7 @@ $(BIN)rand_read_test_register_offset_lsl_scaled: rand_read_test_register_offset_
 	gcc $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch.o -o $(BIN)rand_read_test_register_offset_lsl_scaled_11xbranch
 	
 
-serial_read_tests: $(BIN)serial_read_test $(BIN)serial_read_test_simple $(BIN)serial_read_test_register_offset_shift $(BIN)serial_read_test_register_offset_lsl_scaled $(BIN)serial_read_test_post_index $(BIN)serial_read_test_2x_post_index $(BIN)serial_read_test_pre_index 
+serial_read_tests: $(BIN)serial_read_test $(BIN)serial_read_test_simple $(BIN)serial_read_test_register_offset_shift $(BIN)serial_read_test_register_offset_lsl_scaled $(BIN)serial_read_test_post_index $(BIN)serial_read_test_2x_post_index $(BIN)serial_read_test_pre_index $(BIN)serial_read_test_2x_pre_index 
 
 $(BIN)serial_read_test: serial_read_test.c
 	gcc -w -S -O2 serial_read_test.c -o $(BIN)serial_read_test.s
@@ -101,6 +101,14 @@ $(BIN)serial_read_test_pre_index: serial_read_test_pre_index.s
 	gcc -c serial_read_test_pre_index_11xsub.s -o $(BIN)serial_read_test_pre_index_11xsub.o
 	gcc $(BIN)serial_read_test_pre_index_11xsub.o -o $(BIN)serial_read_test_pre_index_11xsub
 
+$(BIN)serial_read_test_2x_pre_index: serial_read_test_2x_pre_index.s
+	gcc -c serial_read_test_2x_pre_index.s -o $(BIN)serial_read_test_2x_pre_index.o
+	gcc $(BIN)serial_read_test_2x_pre_index.o -o $(BIN)serial_read_test_2x_pre_index
+	gcc -c serial_read_test_2x_pre_index_11xbranch.s -o $(BIN)serial_read_test_2x_pre_index_11xbranch.o
+	gcc $(BIN)serial_read_test_2x_pre_index_11xbranch.o -o $(BIN)serial_read_test_2x_pre_index_11xbranch
+	gcc -c serial_read_test_2x_pre_index_11xsub.s -o $(BIN)serial_read_test_2x_pre_index_11xsub.o
+	gcc $(BIN)serial_read_test_2x_pre_index_11xsub.o -o $(BIN)serial_read_test_2x_pre_index_11xsub
+
 clean:
 	rm $(BIN)rand_read_test $(BIN)rand_read_test.s $(BIN)rand_generator_fastest 
 	rm $(BIN)rand_read_test_simple.o $(BIN)rand_read_test_simple
@@ -135,4 +143,8 @@ clean:
 	rm $(BIN)serial_read_test_pre_index.o $(BIN)serial_read_test_pre_index
 	rm $(BIN)serial_read_test_pre_index_11xbranch.o $(BIN)serial_read_test_pre_index_11xbranch
 	rm $(BIN)serial_read_test_pre_index_11xsub.o $(BIN)serial_read_test_pre_index_11xsub
+	rm $(BIN)serial_read_test_2x_pre_index.o $(BIN)serial_read_test_2x_pre_index
+	rm $(BIN)serial_read_test_2x_pre_index_11xbranch.o $(BIN)serial_read_test_2x_pre_index_11xbranch
+	rm $(BIN)serial_read_test_2x_pre_index_11xsub.o $(BIN)serial_read_test_2x_pre_index_11xsub
+	
 	
