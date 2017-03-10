@@ -192,7 +192,6 @@ main:
 	mov	x1, 0
 	mov	x19, 0
 	bl	gettimeofday
-	mov     x9, 0
 	.p2align 2
 .L15:
 	lsl     x9, x19, 3
