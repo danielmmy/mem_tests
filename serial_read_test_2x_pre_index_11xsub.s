@@ -189,7 +189,7 @@ main:
 	cbz	x19, .L17
 	mov	x0, x19
 	mov	x9, x21
-	sub	x9, x9, 8
+	sub	x9, x9, 16
 	mov     x10, 0xffffffffffffffff
 	.p2align 2
 .L18:
