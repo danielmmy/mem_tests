@@ -106,6 +106,13 @@ $(BIN)serial_read_test_register_offset_shift: serial_read_test_register_offset_s
 $(BIN)serial_read_test_register_offset_lsl_scaled: serial_read_test_register_offset_lsl_scaled.s
 	gcc -c serial_read_test_register_offset_lsl_scaled.s -o $(BIN)serial_read_test_register_offset_lsl_scaled.o
 	gcc $(BIN)serial_read_test_register_offset_lsl_scaled.o -o $(BIN)serial_read_test_register_offset_lsl_scaled
+	gcc -c serial_read_test_register_offset_lsl_scaled_2xadd.s -o $(BIN)serial_read_test_register_offset_lsl_scaled_2xadd.o
+	gcc $(BIN)serial_read_test_register_offset_lsl_scaled_2xadd.o -o $(BIN)serial_read_test_register_offset_lsl_scaled_2xadd  
+	gcc -c serial_read_test_register_offset_lsl_scaled_2xbranch.s -o $(BIN)serial_read_test_register_offset_lsl_scaled_2xbranch.o
+	gcc $(BIN)serial_read_test_register_offset_lsl_scaled_2xbranch.o -o $(BIN)serial_read_test_register_offset_lsl_scaled_2xbranch
+	gcc -c serial_read_test_register_offset_lsl_scaled_2xcmp.s -o $(BIN)serial_read_test_register_offset_lsl_scaled_2xcmp.o
+	gcc $(BIN)serial_read_test_register_offset_lsl_scaled_2xcmp.o -o $(BIN)serial_read_test_register_offset_lsl_scaled_2xcmp
+	
 	
 $(BIN)serial_read_test_post_index: serial_read_test_post_index.s
 	gcc -c serial_read_test_post_index.s -o $(BIN)serial_read_test_post_index.o
@@ -174,6 +181,12 @@ $(BIN)serial_write_test_register_offset_shift: serial_write_test_register_offset
 $(BIN)serial_write_test_register_offset_lsl_scaled: serial_write_test_register_offset_lsl_scaled.s
 	gcc -c serial_write_test_register_offset_lsl_scaled.s -o $(BIN)serial_write_test_register_offset_lsl_scaled.o
 	gcc $(BIN)serial_write_test_register_offset_lsl_scaled.o -o $(BIN)serial_write_test_register_offset_lsl_scaled
+	gcc -c serial_write_test_register_offset_lsl_scaled_2xadd.s -o $(BIN)serial_write_test_register_offset_lsl_scaled_2xadd.o
+	gcc $(BIN)serial_write_test_register_offset_lsl_scaled_2xadd.o -o $(BIN)serial_write_test_register_offset_lsl_scaled_2xadd  
+	gcc -c serial_write_test_register_offset_lsl_scaled_2xbranch.s -o $(BIN)serial_write_test_register_offset_lsl_scaled_2xbranch.o
+	gcc $(BIN)serial_write_test_register_offset_lsl_scaled_2xbranch.o -o $(BIN)serial_write_test_register_offset_lsl_scaled_2xbranch
+	gcc -c serial_write_test_register_offset_lsl_scaled_2xcmp.s -o $(BIN)serial_write_test_register_offset_lsl_scaled_2xcmp.o
+	gcc $(BIN)serial_write_test_register_offset_lsl_scaled_2xcmp.o -o $(BIN)serial_write_test_register_offset_lsl_scaled_2xcmp
 	
 $(BIN)serial_write_test_post_index: serial_write_test_post_index.s
 	gcc -c serial_write_test_post_index.s -o $(BIN)serial_write_test_post_index.o
@@ -241,6 +254,9 @@ clean:
 	rm $(BIN)serial_read_test_register_offset_shift_2xcmp.o $(BIN)serial_read_test_register_offset_shift_2xcmp
 	rm $(BIN)serial_read_test_register_offset_shift_2xshift.o $(BIN)serial_read_test_register_offset_shift_2xshift
 	rm $(BIN)serial_read_test_register_offset_lsl_scaled.o $(BIN)serial_read_test_register_offset_lsl_scaled
+	rm $(BIN)serial_read_test_register_offset_lsl_scaled_2xadd.o $(BIN)serial_read_test_register_offset_lsl_scaled_2xadd
+	rm $(BIN)serial_read_test_register_offset_lsl_scaled_2xbranch.o $(BIN)serial_read_test_register_offset_lsl_scaled_2xbranch
+	rm $(BIN)serial_read_test_register_offset_lsl_scaled_2xcmp.o $(BIN)serial_read_test_register_offset_lsl_scaled_2xcmp
 	rm $(BIN)serial_read_test_post_index.o $(BIN)serial_read_test_post_index
 	rm $(BIN)serial_read_test_2x_post_index.o $(BIN)serial_read_test_2x_post_index
 	rm $(BIN)serial_read_test_2x_post_index_2xbranch.o $(BIN)serial_read_test_2x_post_index_2xbranch
@@ -267,6 +283,9 @@ clean:
 	rm $(BIN)serial_write_test_register_offset_shift_2xcmp.o $(BIN)serial_write_test_register_offset_shift_2xcmp
 	rm $(BIN)serial_write_test_register_offset_shift_2xshift.o $(BIN)serial_write_test_register_offset_shift_2xshift
 	rm $(BIN)serial_write_test_register_offset_lsl_scaled.o $(BIN)serial_write_test_register_offset_lsl_scaled
+	rm $(BIN)serial_write_test_register_offset_lsl_scaled_2xadd.o $(BIN)serial_write_test_register_offset_lsl_scaled_2xadd
+	rm $(BIN)serial_write_test_register_offset_lsl_scaled_2xbranch.o $(BIN)serial_write_test_register_offset_lsl_scaled_2xbranch
+	rm $(BIN)serial_write_test_register_offset_lsl_scaled_2xcmp.o $(BIN)serial_write_test_register_offset_lsl_scaled_2xcmp
 	rm $(BIN)serial_write_test_post_index.o $(BIN)serial_write_test_post_index
 	rm $(BIN)serial_write_test_2x_post_index.o $(BIN)serial_write_test_2x_post_index
 	rm $(BIN)serial_write_test_2x_post_index_2xbranch.o $(BIN)serial_write_test_2x_post_index_2xbranch
