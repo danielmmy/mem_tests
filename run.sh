@@ -9,7 +9,6 @@ for (( i=0; i<$executions ;i++ ))
 do
 	for j in "${sizes[@]}"
 	do
-		./run_rand.sh $j
 		./run_serial.sh $j
 	done
 done

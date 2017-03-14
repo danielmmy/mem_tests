@@ -132,6 +132,7 @@ int main(int argc, char **argv){
 	gettimeofday(&stop_time,0);
 
 	
+	printf("size: %llu\n",size);
 	//prints time
 	unsigned long long us=0;
 	us=(stop_time.tv_sec-start_time.tv_sec)*1000000;
