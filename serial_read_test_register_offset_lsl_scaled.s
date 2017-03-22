@@ -188,12 +188,12 @@ main:
 	bl	gettimeofday
 	cbz	x19, .L17
 	mov	x0, 0
-	mov	x9, x19
 	.p2align 2
 .L18:
 	ldr	x1, [x21, x0, lsl 3]
-	sub	x9, x9, 1
-	cbnz	x9, .L18
+	add	x0, x0, 1
+	cmp	x0, x19
+	bne	.L18
 .L17:
 	mov	w0, w22
 	mov	x19, 0
